@@ -1,0 +1,28 @@
+version: '2'
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: ./irbis-lite.dockerfile
+    working_dir: /var/www
+    volumes:
+      - /var/www/irbis-lite.lc:/var/www/html
+      - ./bin:/root/bin
+    entrypoint: /root/bin/start.sh
+    networks:
+      - docker_net_irbis_lite
+    #ports:
+    #  - 80:80
+    #  - 443:443
+    expose:
+      - 80
+      - 443
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "256m"
+        max-file: "10"
+    tty: true
+networks:
+  docker_net_irbis_lite:
+    external: true
